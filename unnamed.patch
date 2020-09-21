@@ -1,0 +1,1059 @@
+Index: src/Circle.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Circle.java	(date 1600416470859)
++++ src/Circle.java	(date 1600416470859)
+@@ -0,0 +1,211 @@
++import java.awt.*;
++import java.awt.geom.*;
++
++/**
++ * A circle that can be manipulated and that draws itself on a canvas.
++ * 
++ * @author  Michael Kölling and David J. Barnes
++ * @version 1.0  (15 July 2000)
++ */
++
++public class Circle
++{
++    private int diameter;
++    private int xPosition;
++    private int yPosition;
++    private String color;
++    private boolean isVisible;
++
++    /**
++     * Create a new circle at default position with default color.
++     */
++    public Circle()
++    {
++        diameter = 30;
++        xPosition = 20;
++        yPosition = 60;
++        color = "blue";
++        isVisible = false;
++    }
++
++    /**
++     * Make this circle visible. If it was already visible, do nothing.
++     */
++    public void makeVisible()
++    {
++        isVisible = true;
++        draw();
++    }
++
++    /**
++     * Make this circle invisible. If it was already invisible, do nothing.
++     */
++    public void makeInvisible()
++    {
++        erase();
++        isVisible = false;
++    }
++
++    /**
++     * Move the circle a few pixels to the right.
++     */
++    public void moveRight()
++    {
++        moveHorizontal(20);
++    }
++
++    /**
++     * Move the circle a few pixels to the left.
++     */
++    public void moveLeft()
++    {
++        moveHorizontal(-20);
++    }
++
++    /**
++     * Move the circle a few pixels up.
++     */
++    public void moveUp()
++    {
++        moveVertical(-20);
++    }
++
++    /**
++     * Move the circle a few pixels down.
++     */
++    public void moveDown()
++    {
++        moveVertical(20);
++    }
++
++    /**
++     * Move the circle horizontally by 'distance' pixels.
++     */
++    public void moveHorizontal(int distance)
++    {
++        erase();
++        xPosition += distance;
++        draw();
++    }
++
++    /**
++     * Move the circle vertically by 'distance' pixels.
++     */
++    public void moveVertical(int distance)
++    {
++        erase();
++        yPosition += distance;
++        draw();
++    }
++
++    /**
++     * Slowly move the circle horizontally by 'distance' pixels.
++     */
++    public void slowMoveHorizontal(int distance)
++    {
++        int delta;
++
++        if(distance < 0) 
++        {
++            delta = -1;
++            distance = -distance;
++        }
++        else 
++        {
++            delta = 1;
++        }
++
++        for(int i = 0; i < distance; i++)
++        {
++            xPosition += delta;
++            draw();
++        }
++    }
++
++    /**
++     * Slowly move the circle vertically by 'distance' pixels.
++     */
++    public void slowMoveVertical(int distance)
++    {
++        int delta;
++
++        if(distance < 0) 
++        {
++            delta = -1;
++            distance = -distance;
++        }
++        else 
++        {
++            delta = 1;
++        }
++
++        for(int i = 0; i < distance; i++)
++        {
++            yPosition += delta;
++            draw();
++        }
++    }
++    /**
++     * 实现落日操作
++     */
++    public void sunset(int distance) {
++        int delta = 0;
++        if (distance < 0) {
++            delta = -1;
++            distance = -distance;
++        }
++        else {
++            delta = 1;
++        }
++        for (int i = 0; i < distance; i++) {
++            yPosition += delta;
++            xPosition += delta + 2;
++            draw();
++        }
++
++    }
++
++    /**
++     * Change the size to the new size (in pixels). Size must be >= 0.
++     */
++    public void changeSize(int newDiameter)
++    {
++        erase();
++        diameter = newDiameter;
++        draw();
++    }
++
++    /**
++     * Change the color. Valid colors are "red", "yellow", "blue", "green",
++     * "magenta" and "black".
++     */
++    public void changeColor(String newColor)
++    {
++        color = newColor;
++        draw();
++    }
++
++    /*
++     * Draw the circle with current specifications on screen.
++     */
++    private void draw()
++    {
++        if(isVisible) {
++            Canvas canvas = Canvas.getCanvas();
++            canvas.draw(this, color, new Ellipse2D.Double(xPosition, yPosition, 
++                    diameter, diameter));
++            canvas.wait(10);
++        }
++    }
++
++    /*
++     * Erase the circle on screen.
++     */
++    private void erase()
++    {
++        if(isVisible) {
++            Canvas canvas = Canvas.getCanvas();
++            canvas.erase(this);
++        }
++    }
++}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(date 1600413358411)
++++ .idea/misc.xml	(date 1600413358411)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="JavaScriptSettings">
++    <option name="languageLevel" value="ES6" />
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" project-jdk-name="13" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(date 1600413358433)
++++ .idea/modules.xml	(date 1600413358433)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/shapes.iml" filepath="$PROJECT_DIR$/shapes.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/.gitignore	(date 1600413359146)
++++ .idea/.gitignore	(date 1600413359146)
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
++# Editor-based HTTP Client requests
++/httpRequests/
+Index: src/Triangle.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Triangle.java	(date 1600164699000)
++++ src/Triangle.java	(date 1600164699000)
+@@ -0,0 +1,195 @@
++import java.awt.*;
++
++/**
++ * A triangle that can be manipulated and that draws itself on a canvas.
++ * 
++ * @author  Michael Kölling and David J. Barnes
++ * @version 1.0  (15 July 2000)
++ */
++
++public class Triangle
++{
++    private int height;
++    private int width;
++    private int xPosition;
++    private int yPosition;
++    private String color;
++    private boolean isVisible;
++
++    /**
++     * Create a new triangle at default position with default color.
++     */
++    public Triangle()
++    {
++        height = 30;
++        width = 40;
++        xPosition = 50;
++        yPosition = 15;
++        color = "green";
++        isVisible = false;
++    }
++
++    /**
++     * Make this triangle visible. If it was already visible, do nothing.
++     */
++    public void makeVisible()
++    {
++        isVisible = true;
++        draw();
++    }
++
++    /**
++     * Make this triangle invisible. If it was already invisible, do nothing.
++     */
++    public void makeInvisible()
++    {
++        erase();
++        isVisible = false;
++    }
++
++    /**
++     * Move the triangle a few pixels to the right.
++     */
++    public void moveRight()
++    {
++        moveHorizontal(20);
++    }
++
++    /**
++     * Move the triangle a few pixels to the left.
++     */
++    public void moveLeft()
++    {
++        moveHorizontal(-20);
++    }
++
++    /**
++     * Move the triangle a few pixels up.
++     */
++    public void moveUp()
++    {
++        moveVertical(-20);
++    }
++
++    /**
++     * Move the triangle a few pixels down.
++     */
++    public void moveDown()
++    {
++        moveVertical(20);
++    }
++
++    /**
++     * Move the triangle horizontally by 'distance' pixels.
++     */
++    public void moveHorizontal(int distance)
++    {
++        erase();
++        xPosition += distance;
++        draw();
++    }
++
++    /**
++     * Move the triangle vertically by 'distance' pixels.
++     */
++    public void moveVertical(int distance)
++    {
++        erase();
++        yPosition += distance;
++        draw();
++    }
++
++    /**
++     * Slowly move the triangle horizontally by 'distance' pixels.
++     */
++    public void slowMoveHorizontal(int distance)
++    {
++        int delta;
++
++        if(distance < 0) 
++        {
++            delta = -1;
++            distance = -distance;
++        }
++        else 
++        {
++            delta = 1;
++        }
++
++        for(int i = 0; i < distance; i++)
++        {
++            xPosition += delta;
++            draw();
++        }
++    }
++
++    /**
++     * Slowly move the triangle vertically by 'distance' pixels.
++     */
++    public void slowMoveVertical(int distance)
++    {
++        int delta;
++
++        if(distance < 0) 
++        {
++            delta = -1;
++            distance = -distance;
++        }
++        else 
++        {
++            delta = 1;
++        }
++
++        for(int i = 0; i < distance; i++)
++        {
++            yPosition += delta;
++            draw();
++        }
++    }
++
++    /**
++     * Change the size to the new size (in pixels). Size must be >= 0.
++     */
++    public void changeSize(int newHeight, int newWidth)
++    {
++        erase();
++        height = newHeight;
++        width = newWidth;
++        draw();
++    }
++
++    /**
++     * Change the color. Valid colors are "red", "yellow", "blue", "green",
++     * "magenta" and "black".
++     */
++    public void changeColor(String newColor)
++    {
++        color = newColor;
++        draw();
++    }
++
++    /*
++     * Draw the triangle with current specifications on screen.
++     */
++    private void draw()
++    {
++        if(isVisible) {
++            Canvas canvas = Canvas.getCanvas();
++            int[] xpoints = { xPosition, xPosition + (width/2), xPosition - (width/2) };
++            int[] ypoints = { yPosition, yPosition + height, yPosition + height };
++            canvas.draw(this, color, new Polygon(xpoints, ypoints, 3));
++            canvas.wait(10);
++        }
++    }
++
++    /*
++     * Erase the triangle on screen.
++     */
++    private void erase()
++    {
++        if(isVisible) {
++            Canvas canvas = Canvas.getCanvas();
++            canvas.erase(this);
++        }
++    }
++}
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(date 1600600254327)
++++ .gitignore	(date 1600600254327)
+@@ -0,0 +1,2 @@
++# Project exclude paths
++/out/
+\ No newline at end of file
+Index: shapes.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shapes.iml	(date 1600413358292)
++++ shapes.iml	(date 1600413358292)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: src/Square.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Square.java	(date 1600164699000)
++++ src/Square.java	(date 1600164699000)
+@@ -0,0 +1,191 @@
++import java.awt.*;
++
++/**
++ * A square that can be manipulated and that draws itself on a canvas.
++ * 
++ * @author  Michael Kölling and David J. Barnes
++ * @version 1.0  (15 July 2000)
++ */
++
++public class Square
++{
++    private int size;
++    private int xPosition;
++    private int yPosition;
++    private String color;
++    private boolean isVisible;
++
++    /**
++     * Create a new square at default position with default color.
++     */
++    public Square()
++    {
++        size = 30;
++        xPosition = 60;
++        yPosition = 50;
++        color = "red";
++        isVisible = false;
++    }
++
++    /**
++     * Make this square visible. If it was already visible, do nothing.
++     */
++    public void makeVisible()
++    {
++        isVisible = true;
++        draw();
++    }
++
++    /**
++     * Make this square invisible. If it was already invisible, do nothing.
++     */
++    public void makeInvisible()
++    {
++        erase();
++        isVisible = false;
++    }
++
++    /**
++     * Move the square a few pixels to the right.
++     */
++    public void moveRight()
++    {
++        moveHorizontal(20);
++    }
++
++    /**
++     * Move the square a few pixels to the left.
++     */
++    public void moveLeft()
++    {
++        moveHorizontal(-20);
++    }
++
++    /**
++     * Move the square a few pixels up.
++     */
++    public void moveUp()
++    {
++        moveVertical(-20);
++    }
++
++    /**
++     * Move the square a few pixels down.
++     */
++    public void moveDown()
++    {
++        moveVertical(20);
++    }
++
++    /**
++     * Move the square horizontally by 'distance' pixels.
++     */
++    public void moveHorizontal(int distance)
++    {
++        erase();
++        xPosition += distance;
++        draw();
++    }
++
++    /**
++     * Move the square vertically by 'distance' pixels.
++     */
++    public void moveVertical(int distance)
++    {
++        erase();
++        yPosition += distance;
++        draw();
++    }
++
++    /**
++     * Slowly move the square horizontally by 'distance' pixels.
++     */
++    public void slowMoveHorizontal(int distance)
++    {
++        int delta;
++
++        if(distance < 0) 
++        {
++            delta = -1;
++            distance = -distance;
++        }
++        else 
++        {
++            delta = 1;
++        }
++
++        for(int i = 0; i < distance; i++)
++        {
++            xPosition += delta;
++            draw();
++        }
++    }
++
++    /**
++     * Slowly move the square vertically by 'distance' pixels.
++     */
++    public void slowMoveVertical(int distance)
++    {
++        int delta;
++
++        if(distance < 0) 
++        {
++            delta = -1;
++            distance = -distance;
++        }
++        else 
++        {
++            delta = 1;
++        }
++
++        for(int i = 0; i < distance; i++)
++        {
++            yPosition += delta;
++            draw();
++        }
++    }
++
++    /**
++     * Change the size to the new size (in pixels). Size must be >= 0.
++     */
++    public void changeSize(int newSize)
++    {
++        erase();
++        size = newSize;
++        draw();
++    }
++
++    /**
++     * Change the color. Valid colors are "red", "yellow", "blue", "green",
++     * "magenta" and "black".
++     */
++    public void changeColor(String newColor)
++    {
++        color = newColor;
++        draw();
++    }
++
++    /*
++     * Draw the square with current specifications on screen.
++     */
++    private void draw()
++    {
++        if(isVisible) {
++            Canvas canvas = Canvas.getCanvas();
++            canvas.draw(this, color,
++                    new Rectangle(xPosition, yPosition, size, size));
++            canvas.wait(10);
++        }
++    }
++
++    /*
++     * Erase the square on screen.
++     */
++    private void erase()
++    {
++        if(isVisible) {
++            Canvas canvas = Canvas.getCanvas();
++            canvas.erase(this);
++        }
++    }
++}
+Index: src/Canvas.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Canvas.java	(date 1600164699000)
++++ src/Canvas.java	(date 1600164699000)
+@@ -0,0 +1,221 @@
++import javax.swing.*;
++import java.awt.*;
++import java.util.List;
++import java.util.*;
++
++/**
++ * Canvas is a class to allow for simple graphical drawing on a canvas.
++ * This is a modification of the general purpose Canvas, specially made for
++ * the BlueJ "shapes" example. 
++ *
++ * @author: Bruce Quig
++ * @author: Michael Kölling (mik)
++ *
++ * @version: 1.6 (shapes)
++ */
++public class Canvas
++{
++    // Note: The implementation of this class (specifically the handling of
++    // shape identity and colors) is slightly more complex than necessary. This
++    // is done on purpose to keep the interface and instance fields of the
++    // shape objects in this project clean and simple for educational purposes.
++
++    private static Canvas canvasSingleton;
++
++    /**
++     * Factory method to get the canvas singleton object.
++     */
++    public static Canvas getCanvas()
++    {
++        if(canvasSingleton == null) {
++            canvasSingleton = new Canvas("BlueJ Shapes Demo", 300, 300, 
++                    Color.white);
++        }
++        canvasSingleton.setVisible(true);
++        return canvasSingleton;
++    }
++
++    //  ----- instance part -----
++
++    private JFrame frame;
++    private CanvasPane canvas;
++    private Graphics2D graphic;
++    private Color backgroundColour;
++    private Image canvasImage;
++    private List<Object> objects;
++    private HashMap<Object, ShapeDescription> shapes;
++    
++    /**
++     * Create a Canvas.
++     * @param title  title to appear in Canvas Frame
++     * @param width  the desired width for the canvas
++     * @param height  the desired height for the canvas
++     * @param bgClour  the desired background colour of the canvas
++     */
++    private Canvas(String title, int width, int height, Color bgColour)
++    {
++        frame = new JFrame();
++        canvas = new CanvasPane();
++        frame.setContentPane(canvas);
++        frame.setTitle(title);
++        canvas.setPreferredSize(new Dimension(width, height));
++        backgroundColour = bgColour;
++        frame.pack();
++        objects = new ArrayList<Object>();
++        shapes = new HashMap<Object, ShapeDescription>();
++    }
++
++    /**
++     * Set the canvas visibility and brings canvas to the front of screen
++     * when made visible. This method can also be used to bring an already
++     * visible canvas to the front of other windows.
++     * @param visible  boolean value representing the desired visibility of
++     * the canvas (true or false) 
++     */
++    public void setVisible(boolean visible)
++    {
++        if(graphic == null) {
++            // first time: instantiate the offscreen image and fill it with
++            // the background colour
++            Dimension size = canvas.getSize();
++            canvasImage = canvas.createImage(size.width, size.height);
++            graphic = (Graphics2D)canvasImage.getGraphics();
++            graphic.setColor(backgroundColour);
++            graphic.fillRect(0, 0, size.width, size.height);
++            graphic.setColor(Color.black);
++        }
++        frame.setVisible(visible);
++    }
++
++    /**
++     * Draw a given shape onto the canvas.
++     * @param  referenceObject  an object to define identity for this shape
++     * @param  color            the color of the shape
++     * @param  shape            the shape object to be drawn on the canvas
++     */
++     // Note: this is a slightly backwards way of maintaining the shape
++     // objects. It is carefully designed to keep the visible shape interfaces
++     // in this project clean and simple for educational purposes.
++    public void draw(Object referenceObject, String color, Shape shape)
++    {
++        objects.remove(referenceObject);   // just in case it was already there
++        objects.add(referenceObject);      // add at the end
++        shapes.put(referenceObject, new ShapeDescription(shape, color));
++        redraw();
++    }
++ 
++    /**
++     * Erase a given shape's from the screen.
++     * @param  referenceObject  the shape object to be erased 
++     */
++    public void erase(Object referenceObject)
++    {
++        objects.remove(referenceObject);   // just in case it was already there
++        shapes.remove(referenceObject);
++        redraw();
++    }
++
++    /**
++     * Set the foreground colour of the Canvas.
++     * @param  newColour   the new colour for the foreground of the Canvas 
++     */
++    public void setForegroundColor(String colorString)
++    {
++        if(colorString.equals("red"))
++            graphic.setColor(Color.red);
++        else if(colorString.equals("black"))
++            graphic.setColor(Color.black);
++        else if(colorString.equals("blue"))
++            graphic.setColor(Color.blue);
++        else if(colorString.equals("yellow"))
++            graphic.setColor(Color.yellow);
++        else if(colorString.equals("green"))
++            graphic.setColor(Color.green);
++        else if(colorString.equals("magenta"))
++            graphic.setColor(Color.magenta);
++        else if(colorString.equals("white"))
++            graphic.setColor(Color.white);
++        else
++            graphic.setColor(Color.black);
++    }
++
++    /**
++     * Wait for a specified number of milliseconds before finishing.
++     * This provides an easy way to specify a small delay which can be
++     * used when producing animations.
++     * @param  milliseconds  the number 
++     */
++    public void wait(int milliseconds)
++    {
++        try
++        {
++            Thread.sleep(milliseconds);
++        } 
++        catch (Exception e)
++        {
++            // ignoring exception at the moment
++        }
++    }
++
++    /**
++     * Redraw ell shapes currently on the Canvas.
++     */
++    private void redraw()
++    {
++        erase();
++        for(Iterator i=objects.iterator(); i.hasNext(); ) {
++            ((ShapeDescription)shapes.get(i.next())).draw(graphic);
++        }
++        canvas.repaint();
++    }
++       
++    /**
++     * Erase the whole canvas. (Does not repaint.)
++     */
++    private void erase()
++    {
++        Color original = graphic.getColor();
++        graphic.setColor(backgroundColour);
++        Dimension size = canvas.getSize();
++        graphic.fill(new Rectangle(0, 0, size.width, size.height));
++        graphic.setColor(original);
++    }
++
++
++    /************************************************************************
++     * Inner class CanvasPane - the actual canvas component contained in the
++     * Canvas frame. This is essentially a JPanel with added capability to
++     * refresh the image drawn on it.
++     */
++    private class CanvasPane extends JPanel
++    {
++        public void paint(Graphics g)
++        {
++            g.drawImage(canvasImage, 0, 0, null);
++        }
++    }
++    
++    /************************************************************************
++     * Inner class CanvasPane - the actual canvas component contained in the
++     * Canvas frame. This is essentially a JPanel with added capability to
++     * refresh the image drawn on it.
++     */
++    private class ShapeDescription
++    {
++        private Shape shape;
++        private String colorString;
++
++        public ShapeDescription(Shape shape, String color)
++        {
++            this.shape = shape;
++            colorString = color;
++        }
++
++        public void draw(Graphics2D graphic)
++        {
++            setForegroundColor(colorString);
++            graphic.fill(shape);
++        }
++    }
++
++}
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/vcs.xml	(date 1600600333032)
++++ .idea/vcs.xml	(date 1600600333032)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: src/Picture.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Picture.java	(date 1600599022111)
++++ src/Picture.java	(date 1600599022111)
+@@ -0,0 +1,104 @@
++
++/**
++ * This class represents a simple picture. You can draw the picture using
++ * the draw method. But wait, there's more: being an electronic picture, it
++ * can be changed. You can set it to black-and-white display and back to
++ * colors (only after it's been drawn, of course).
++ *
++ * This class was written as an early example for teaching Java with BlueJ.
++ * 
++ * @author  Michael Kölling and David J. Barnes
++ * @version 1.1  (24 May 2001)
++ */
++public class Picture
++{
++    private Square wall;
++    private Square window;
++    private Triangle roof;
++    private Circle sun;
++    private Circle sun2;
++    /**
++     * 创建的第二个太阳
++     */
++
++    /**
++     * Constructor for objects of class Picture
++     */
++    public Picture()
++    {
++        // nothing to do... instance variables are automatically set to null
++    }
++
++    /**
++     * Draw this picture.
++     */
++    public void draw()
++    {
++        wall = new Square();
++        wall.moveVertical(80);
++        wall.changeColor("blue");
++        wall.changeSize(100);
++        wall.makeVisible();
++
++        window = new Square();
++        window.changeColor("black");
++        window.moveHorizontal(20);
++        window.moveVertical(100);
++        window.makeVisible();
++
++        roof = new Triangle();
++        roof.changeSize(50, 140);
++        roof.moveHorizontal(60);
++        roof.moveVertical(70);
++        roof.makeVisible();
++
++        sun2 = new Circle();
++        sun2.changeColor("green");
++        sun2.makeVisible();
++
++        sun = new Circle();
++        sun.changeColor("red");
++        sun.moveHorizontal(-20);
++        sun.moveVertical(-40);
++        sun.changeSize(60);
++        sun.makeVisible();
++        //sun.makeInvisible();
++        sun.sunset(170);
++        sun.makeInvisible();
++    }
++
++    /**
++     * Change this picture to black/white display
++     */
++    public void setBlackAndWhite()
++    {
++        if(wall != null)   // only if it's painted already...
++        {
++            wall.changeColor("black");
++            window.changeColor("white");
++            roof.changeColor("black");
++            sun.changeColor("black");
++        }
++    }
++
++    /**
++     * Change this picture to use color display
++     */
++    public void setColor()
++    {
++        if(wall != null)   // only if it's painted already...
++        {
++            wall.changeColor("red");
++            window.changeColor("black");
++            roof.changeColor("green");
++            sun.changeColor("yellow");
++        }
++    }
++
++    public static void main(String[] args) {
++        Picture picture = new Picture();
++//        picture.setBlackAndWhite();
++        picture.draw();;
++    }
++
++}
